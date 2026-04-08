@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 import type { ObservatoryProfile } from "@/lib/ui/adapter/types"
 import type { UnifiedAstrologyProfile } from "@/lib/profileAggregator/types"
 import type { SignalGroup, SignalEntry } from "@/lib/ui/shared/types"
@@ -33,6 +33,44 @@ export function ProfileDashboard({
     const cross = generateCrossInsights(base)
     return [...base, ...cross]
   }, [raw, bazi])
+
+  useEffect(() => {
+  if (!allInsights || allInsights.length === 0) return
+
+  const profile_id = `${meta.fullName}|${meta.birthDate}|${meta.gender}`
+
+  const core_tags = allInsights
+    .flatMap(i => i.tags || [])
+    .slice(0, 5)
+    .join(", ")
+
+  const strengths = allInsights
+    .filter(i => i.tone === "positive")
+    .map(i => i.content)
+    .slice(0, 3)
+    .join(" | ")
+
+  const warnings = allInsights
+    .filter(i => i.tone === "warning")
+    .map(i => i.content)
+    .slice(0, 3)
+    .join(" | ")
+
+  const summary = allInsights[0]?.content || ""
+
+  fetch("/api/save-insight", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      profile_id,
+      core_tags,
+      strengths,
+      warnings,
+      summary,
+    }),
+  })
+
+}, [allInsights])
 
   const conflicts: Conflict[]    = useMemo(() => detectConflicts(allInsights), [allInsights])
   const grouped: GroupedInsights = useMemo(() => groupInsights(allInsights), [allInsights])
