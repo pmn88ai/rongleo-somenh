@@ -50,6 +50,25 @@ export async function callGroq(
     const text = data.text ?? ""
     if (!text) return { ok: false, error: "Groq trả về nội dung trống." }
 
+    // 🔥 SAVE TO GOOGLE SHEET
+    try {
+      const saveRes = await fetch("/api/save-ai", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          profile_id: cacheKey ?? "unknown",
+          temperature: isRewrite ? 0.92 : 0.72,
+          content: text,
+        }),
+      })
+
+      if (!saveRes.ok) {
+        console.warn("Save AI failed")
+      }
+    } catch (e) {
+      console.warn("Save AI error:", e)
+    }
+
     // (3) Lưu vào cache
     if (cacheKey) narrativeCache.set(cacheKey, text)
 
