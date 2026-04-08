@@ -69,6 +69,27 @@ export default function Page() {
 
         const adapted = adaptProfile({ formValues: form, profile: raw })
 
+        // 🔥 TẠO PROFILE ID
+        const profile_id = `${form.fullName}|${form.birthDate}|${gender}`
+
+        // 🔥 SAVE PROFILE
+        fetch("/api/save-profile", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            profile_id,
+            name: form.fullName,
+            birthdate: form.birthDate,
+            time: form.birthHour,
+            gender,
+            phone: form.phoneNumber,
+          }),
+        })
+
+        // 🔥 TODO: SAVE INSIGHT (phase sau, chưa có extractor ở đây)
+
+        setState({ phase: "result", profile: adapted, raw })
+
         // Bát Tự engine — optional, lỗi không crash toàn app
 
         setState({ phase: "result", profile: adapted, raw})
