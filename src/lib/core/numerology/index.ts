@@ -1,0 +1,6 @@
+export { reduceNumber }              from "@/lib/core/numerology/reduceNumber"
+export { sumDigits, reducePlain }    from "@/lib/core/numerology/sumDigits"
+export { LETTER_VALUES }             from "@/lib/core/numerology/letterValue"
+export { VOWELS }                    from "@/lib/core/numerology/vowels"
+export { formatNumerologyResult }    from "@/lib/core/numerology/formatNumerologyResult"
+export type { NumerologyResult }     from "@/lib/core/numerology/formatNumerologyResult"

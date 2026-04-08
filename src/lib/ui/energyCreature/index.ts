@@ -1,0 +1,5 @@
+export { EnergyCreatureRenderer } from "./EnergyCreatureRenderer"
+export { EnergyExplainPanel }    from "./EnergyExplainPanel"
+export { mapToCreature }         from "./energyCreatureMapper"
+export { buildExplanation }      from "./energyExplainBuilder"
+export type { EnergyCreatureModel, AxisExplainEntry, AxisVector, SignalMapping, ContributionEntry } from "./energyCreatureTypes"
