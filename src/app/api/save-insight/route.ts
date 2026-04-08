@@ -18,9 +18,9 @@ export async function POST(req: Request) {
         sheet: "INSIGHTS",
         data: [
           profile_id,
-          core_tags.join(", "),
-          strengths.join(" | "),
-          warnings.join(" | "),
+          core_tags,
+          strengths,
+          warnings,
           summary,
           new Date().toISOString(),
         ],
